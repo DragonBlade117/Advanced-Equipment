@@ -1,3 +1,4 @@
+
 class CfgVehicles 
 {
 	/* ================================================================================ */
@@ -385,7 +386,450 @@ class CfgVehicles
 	};
 
 	/* ================================================================================ */
+	
+	// Multi-Screen Computer BLACK
+	class Land_MultiScreenComputer_01_black_F;
+	class Land_MultiScreenComputer_01_black_F_AE3: Land_MultiScreenComputer_01_black_F
+	{
+		scopeCurator = 2; // Zeus visability; 2 will show it in the menu, 0 will hide it.
 
+		editorCategory = "AE3_Assets";
+
+		curatorInfoTypeEmpty = "AE3_UserInterface_Zeus_Asset_Details";
+
+		// Eden Editor Attributes
+		class Attributes
+		{
+			class AE3_EdenAttribute_PowerLevel
+			{
+				//--- Mandatory properties
+				displayName = "$STR_AE3_Main_EdenAttributes_PowerLevelDisplayName"; // Name assigned to UI control class Title
+				tooltip = "$STR_AE3_Main_EdenAttributes_PowerLevelTooltip"; // Tooltip assigned to UI control class Title
+				property = "AE3_EdenAttribute_PowerLevel"; // Unique config property name saved in SQM
+				control = "Slider"; // UI control base class displayed in Edit Attributes window, points to Cfg3DEN >> Attributes
+
+				expression = "_this setVariable ['%s', _value, true];";
+
+				defaultValue = "1";
+
+				//--- Optional properties
+				unique = 0; // When 1, only one entity of the type can have the value in the mission (used for example for variable names or player control)
+				validate = "number"; // Validate the value before saving. If the value is not of given type e.g. "number", the default value will be set. Can be "none", "expression", "condition", "number" or "variable"
+				condition = "1"; // Condition for attribute to appear (see the table below)
+				typeName = "NUMBER"; // Defines data type of saved value, can be STRING, NUMBER or BOOL. Used only when control is "Combo", "Edit" or their variants
+			};
+		};
+
+		class AE3_Equipment
+		{
+			displayName = "$STR_AE3_ArmaOS_Config_LaptopDisplayName";
+
+			closeState = 0;
+
+			init = "_this call AE3_interaction_fnc_initLaptop;";
+
+			openAction = "_this call AE3_interaction_fnc_laptop_open;";
+			openActionCondition = "isNull (_this getVariable ['AE3_computer_mutex', objNull])";
+			closeAction = "_this call AE3_interaction_fnc_laptop_close;";
+			closeActionCondition = "isNull (_this getVariable ['AE3_computer_mutex', objNull])";
+      
+			class AE3_ace3Interactions
+			{
+					class AE3_aceCarrying
+					{
+						// Carrying
+						ae3_dragging_canCarry = 1;  // Can be dragged (0-no, 1-yes)
+						ae3_dragging_carryPosition[] = {0, 1, 1};  // Offset of the model from the body while dragging (same as attachTo)
+						ae3_dragging_carryDirection = 0;  // Model direction while dragging (same as setDir after attachTo)
+					};
+					class AE3_aceCargo
+					{
+						ae3_cargo_canLoad = 1;  // Enables the object to be loaded (1-yes, 0-no)
+						ae3_cargo_size = 1;  // Cargo space the object takes
+					};
+			};
+		};
+
+		class AE3_Device
+		{
+			displayName = "$STR_AE3_ArmaOS_Config_LaptopDisplayName";
+			defaultPowerLevel = 0;
+
+			init = "(_this + [configFile >> 'AE3_FilesystemObjects']) call AE3_filesystem_fnc_initFilesystem; _this call AE3_armaos_fnc_link_init; _this call AE3_network_fnc_initNetworkDevice;";
+
+			turnOnAction = "_this call AE3_network_fnc_dhcp_onTurnOn; _this call AE3_armaos_fnc_computer_turnOn;";
+			turnOnActionCondition = "isNull (_this getVariable ['AE3_computer_mutex', objNull])";
+			turnOffAction = "_this call AE3_armaos_fnc_computer_turnOff;";
+			turnOffActionCondition = "isNull (_this getVariable ['AE3_computer_mutex', objNull])";
+			standByAction = "_this call AE3_armaos_fnc_computer_standby;";
+			standByActionCondition = "isNull (_this getVariable ['AE3_computer_mutex', objNull])";
+
+			class AE3_Consumer
+			{
+				powerConsumption = 0.05/3600; // 50 Watts
+				standbyConsumption = 0.0005/3600; // 0.5 Watts
+			};
+		};
+
+		class AE3_InternalDevice
+		{
+			displayName = "$STR_AE3_ArmaOS_Config_BatteryDisplayName";
+			defaultPowerLevel = 1;
+
+			turnOnAction = "_this + [true] call AE3_power_fnc_turnOnBatteryAction";
+			turnOffAction = "";
+
+			class AE3_PowerInterface
+			{
+				internal = 1;
+			};
+
+			class AE3_Battery
+			{
+				capacity = 1; // 100 Watts/hour max. capacity
+				recharging = 0.1/3600; // 50 Watts power consumption while recharging
+				level = 0.5; // 100 Watts/hour capacity at the beginning
+				internal = 1;
+			};
+		};
+
+		class AE3_USB_Interface
+		{
+			class USB0
+			{
+				rel_pos[] = {0.175293, -0.034668, -0.120497};
+				rot_yaw = 0;
+				rot_pitch = 90;
+				rot_roll = 0;
+			};
+
+			class USB1
+			{
+				rel_pos[] = {0.175293, -0.0546875, -0.120497};
+				rot_yaw = 0;
+				rot_pitch = 90;
+				rot_roll = 0;
+			};
+			class USB2
+			{
+				rel_pos[] = {0.175293, -0.0554199, -0.120497};
+				rot_yaw = 0;
+				rot_pitch = 90;
+				rot_roll = 0;
+			};
+			class USB3
+			{
+				rel_pos[] = {0.175293, -0.0678711, -0.120497};
+				rot_yaw = 0;
+				rot_pitch = 90;
+				rot_roll = 0;
+			};
+			class USB4
+			{
+				rel_pos[] = {0.175293,-0.0786133,-0.120497};
+				rot_yaw = 0;
+				rot_pitch = 90;
+				rot_roll = 0;
+			};
+		};
+	};
+
+	/* ================================================================================ */
+	
+	// Multi-Screen Computer OLIVE
+	class Land_MultiScreenComputer_01_olive_F;
+	class Land_MultiScreenComputer_01_olive_F_AE3: Land_MultiScreenComputer_01_olive_F
+	{
+		scopeCurator = 2; // Zeus visability; 2 will show it in the menu, 0 will hide it.
+
+		editorCategory = "AE3_Assets";
+
+		curatorInfoTypeEmpty = "AE3_UserInterface_Zeus_Asset_Details";
+
+		// Eden Editor Attributes
+		class Attributes
+		{
+			class AE3_EdenAttribute_PowerLevel
+			{
+				//--- Mandatory properties
+				displayName = "$STR_AE3_Main_EdenAttributes_PowerLevelDisplayName"; // Name assigned to UI control class Title
+				tooltip = "$STR_AE3_Main_EdenAttributes_PowerLevelTooltip"; // Tooltip assigned to UI control class Title
+				property = "AE3_EdenAttribute_PowerLevel"; // Unique config property name saved in SQM
+				control = "Slider"; // UI control base class displayed in Edit Attributes window, points to Cfg3DEN >> Attributes
+
+				expression = "_this setVariable ['%s', _value, true];";
+
+				defaultValue = "1";
+
+				//--- Optional properties
+				unique = 0; // When 1, only one entity of the type can have the value in the mission (used for example for variable names or player control)
+				validate = "number"; // Validate the value before saving. If the value is not of given type e.g. "number", the default value will be set. Can be "none", "expression", "condition", "number" or "variable"
+				condition = "1"; // Condition for attribute to appear (see the table below)
+				typeName = "NUMBER"; // Defines data type of saved value, can be STRING, NUMBER or BOOL. Used only when control is "Combo", "Edit" or their variants
+			};
+		};
+
+		class AE3_Equipment
+		{
+			displayName = "$STR_AE3_ArmaOS_Config_LaptopDisplayName";
+
+			closeState = 0;
+
+			init = "_this call AE3_interaction_fnc_initLaptop;";
+
+			openAction = "_this call AE3_interaction_fnc_laptop_open;";
+			openActionCondition = "isNull (_this getVariable ['AE3_computer_mutex', objNull])";
+			closeAction = "_this call AE3_interaction_fnc_laptop_close;";
+			closeActionCondition = "isNull (_this getVariable ['AE3_computer_mutex', objNull])";
+      
+			class AE3_ace3Interactions
+			{
+					class AE3_aceCarrying
+					{
+						// Carrying
+						ae3_dragging_canCarry = 1;  // Can be dragged (0-no, 1-yes)
+						ae3_dragging_carryPosition[] = {0, 1, 1};  // Offset of the model from the body while dragging (same as attachTo)
+						ae3_dragging_carryDirection = 0;  // Model direction while dragging (same as setDir after attachTo)
+					};
+					class AE3_aceCargo
+					{
+						ae3_cargo_canLoad = 1;  // Enables the object to be loaded (1-yes, 0-no)
+						ae3_cargo_size = 1;  // Cargo space the object takes
+					};
+			};
+		};
+
+		class AE3_Device
+		{
+			displayName = "$STR_AE3_ArmaOS_Config_LaptopDisplayName";
+			defaultPowerLevel = 0;
+
+			init = "(_this + [configFile >> 'AE3_FilesystemObjects']) call AE3_filesystem_fnc_initFilesystem; _this call AE3_armaos_fnc_link_init; _this call AE3_network_fnc_initNetworkDevice;";
+
+			turnOnAction = "_this call AE3_network_fnc_dhcp_onTurnOn; _this call AE3_armaos_fnc_computer_turnOn;";
+			turnOnActionCondition = "isNull (_this getVariable ['AE3_computer_mutex', objNull])";
+			turnOffAction = "_this call AE3_armaos_fnc_computer_turnOff;";
+			turnOffActionCondition = "isNull (_this getVariable ['AE3_computer_mutex', objNull])";
+			standByAction = "_this call AE3_armaos_fnc_computer_standby;";
+			standByActionCondition = "isNull (_this getVariable ['AE3_computer_mutex', objNull])";
+
+			class AE3_Consumer
+			{
+				powerConsumption = 0.05/3600; // 50 Watts
+				standbyConsumption = 0.0005/3600; // 0.5 Watts
+			};
+		};
+
+		class AE3_InternalDevice
+		{
+			displayName = "$STR_AE3_ArmaOS_Config_BatteryDisplayName";
+			defaultPowerLevel = 1;
+
+			turnOnAction = "_this + [true] call AE3_power_fnc_turnOnBatteryAction";
+			turnOffAction = "";
+
+			class AE3_PowerInterface
+			{
+				internal = 1;
+			};
+
+			class AE3_Battery
+			{
+				capacity = 1; // 100 Watts/hour max. capacity
+				recharging = 0.1/3600; // 50 Watts power consumption while recharging
+				level = 0.5; // 100 Watts/hour capacity at the beginning
+				internal = 1;
+			};
+		};
+
+		class AE3_USB_Interface
+		{
+			class USB0
+			{
+				rel_pos[] = {0.175293, -0.034668, -0.120497};
+				rot_yaw = 0;
+				rot_pitch = 90;
+				rot_roll = 0;
+			};
+
+			class USB1
+			{
+				rel_pos[] = {0.175293, -0.0546875, -0.120497};
+				rot_yaw = 0;
+				rot_pitch = 90;
+				rot_roll = 0;
+			};
+			class USB2
+			{
+				rel_pos[] = {0.175293, -0.0554199, -0.120497};
+				rot_yaw = 0;
+				rot_pitch = 90;
+				rot_roll = 0;
+			};
+			class USB3
+			{
+				rel_pos[] = {0.175293, -0.0678711, -0.120497};
+				rot_yaw = 0;
+				rot_pitch = 90;
+				rot_roll = 0;
+			};
+			class USB4
+			{
+				rel_pos[] = {0.175293,-0.0786133,-0.120497};
+				rot_yaw = 0;
+				rot_pitch = 90;
+				rot_roll = 0;
+			};
+		};
+	};
+		/* ================================================================================ */
+	
+	// Multi-Screen Computer SAND
+	class Land_MultiScreenComputer_01_sand_F;
+	class Land_MultiScreenComputer_01_sand_F_AE3: Land_MultiScreenComputer_01_sand_F
+	{
+		scopeCurator = 2; // Zeus visability; 2 will show it in the menu, 0 will hide it.
+
+		editorCategory = "AE3_Assets";
+
+		curatorInfoTypeEmpty = "AE3_UserInterface_Zeus_Asset_Details";
+
+		// Eden Editor Attributes
+		class Attributes
+		{
+			class AE3_EdenAttribute_PowerLevel
+			{
+				//--- Mandatory properties
+				displayName = "$STR_AE3_Main_EdenAttributes_PowerLevelDisplayName"; // Name assigned to UI control class Title
+				tooltip = "$STR_AE3_Main_EdenAttributes_PowerLevelTooltip"; // Tooltip assigned to UI control class Title
+				property = "AE3_EdenAttribute_PowerLevel"; // Unique config property name saved in SQM
+				control = "Slider"; // UI control base class displayed in Edit Attributes window, points to Cfg3DEN >> Attributes
+
+				expression = "_this setVariable ['%s', _value, true];";
+
+				defaultValue = "1";
+
+				//--- Optional properties
+				unique = 0; // When 1, only one entity of the type can have the value in the mission (used for example for variable names or player control)
+				validate = "number"; // Validate the value before saving. If the value is not of given type e.g. "number", the default value will be set. Can be "none", "expression", "condition", "number" or "variable"
+				condition = "1"; // Condition for attribute to appear (see the table below)
+				typeName = "NUMBER"; // Defines data type of saved value, can be STRING, NUMBER or BOOL. Used only when control is "Combo", "Edit" or their variants
+			};
+		};
+
+		class AE3_Equipment
+		{
+			displayName = "$STR_AE3_ArmaOS_Config_LaptopDisplayName";
+
+			closeState = 0;
+
+			init = "_this call AE3_interaction_fnc_initLaptop;";
+
+			openAction = "_this call AE3_interaction_fnc_laptop_open;";
+			openActionCondition = "isNull (_this getVariable ['AE3_computer_mutex', objNull])";
+			closeAction = "_this call AE3_interaction_fnc_laptop_close;";
+			closeActionCondition = "isNull (_this getVariable ['AE3_computer_mutex', objNull])";
+      
+			class AE3_ace3Interactions
+			{
+					class AE3_aceCarrying
+					{
+						// Carrying
+						ae3_dragging_canCarry = 1;  // Can be dragged (0-no, 1-yes)
+						ae3_dragging_carryPosition[] = {0, 1, 1};  // Offset of the model from the body while dragging (same as attachTo)
+						ae3_dragging_carryDirection = 0;  // Model direction while dragging (same as setDir after attachTo)
+					};
+					class AE3_aceCargo
+					{
+						ae3_cargo_canLoad = 1;  // Enables the object to be loaded (1-yes, 0-no)
+						ae3_cargo_size = 1;  // Cargo space the object takes
+					};
+			};
+		};
+
+		class AE3_Device
+		{
+			displayName = "$STR_AE3_ArmaOS_Config_LaptopDisplayName";
+			defaultPowerLevel = 0;
+
+			init = "(_this + [configFile >> 'AE3_FilesystemObjects']) call AE3_filesystem_fnc_initFilesystem; _this call AE3_armaos_fnc_link_init; _this call AE3_network_fnc_initNetworkDevice;";
+
+			turnOnAction = "_this call AE3_network_fnc_dhcp_onTurnOn; _this call AE3_armaos_fnc_computer_turnOn;";
+			turnOnActionCondition = "isNull (_this getVariable ['AE3_computer_mutex', objNull])";
+			turnOffAction = "_this call AE3_armaos_fnc_computer_turnOff;";
+			turnOffActionCondition = "isNull (_this getVariable ['AE3_computer_mutex', objNull])";
+			standByAction = "_this call AE3_armaos_fnc_computer_standby;";
+			standByActionCondition = "isNull (_this getVariable ['AE3_computer_mutex', objNull])";
+
+			class AE3_Consumer
+			{
+				powerConsumption = 0.05/3600; // 50 Watts
+				standbyConsumption = 0.0005/3600; // 0.5 Watts
+			};
+		};
+
+		class AE3_InternalDevice
+		{
+			displayName = "$STR_AE3_ArmaOS_Config_BatteryDisplayName";
+			defaultPowerLevel = 1;
+
+			turnOnAction = "_this + [true] call AE3_power_fnc_turnOnBatteryAction";
+			turnOffAction = "";
+
+			class AE3_PowerInterface
+			{
+				internal = 1;
+			};
+
+			class AE3_Battery
+			{
+				capacity = 1; // 100 Watts/hour max. capacity
+				recharging = 0.1/3600; // 50 Watts power consumption while recharging
+				level = 0.5; // 100 Watts/hour capacity at the beginning
+				internal = 1;
+			};
+		};
+
+		class AE3_USB_Interface
+		{
+			class USB0
+			{
+				rel_pos[] = {0.175293, -0.034668, -0.120497};
+				rot_yaw = 0;
+				rot_pitch = 90;
+				rot_roll = 0;
+			};
+
+			class USB1
+			{
+				rel_pos[] = {0.175293, -0.0546875, -0.120497};
+				rot_yaw = 0;
+				rot_pitch = 90;
+				rot_roll = 0;
+			};
+			class USB2
+			{
+				rel_pos[] = {0.175293, -0.0554199, -0.120497};
+				rot_yaw = 0;
+				rot_pitch = 90;
+				rot_roll = 0;
+			};
+			class USB3
+			{
+				rel_pos[] = {0.175293, -0.0678711, -0.120497};
+				rot_yaw = 0;
+				rot_pitch = 90;
+				rot_roll = 0;
+			};
+			class USB4
+			{
+				rel_pos[] = {0.175293,-0.0786133,-0.120497};
+				rot_yaw = 0;
+				rot_pitch = 90;
+				rot_roll = 0;
+			};
+		};
+	};
 	class Logic;
 	class Module_F: Logic
 	{
@@ -626,6 +1070,5 @@ class CfgVehicles
 			};
 		};
 	};
-
 	/* ================================================================================ */
 };
